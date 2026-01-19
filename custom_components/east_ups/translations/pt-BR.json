@@ -1,0 +1,121 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configuração EAST UPS",
+        "description": "Configure a conexão com seu EAST UPS (Intelbras série DNB ou similar).",
+        "data": {
+          "serial_port": "Porta Serial",
+          "model": "Modelo do Nobreak",
+          "baudrate": "Taxa de Transmissão",
+          "slave": "Endereço Modbus",
+          "scan_interval": "Intervalo de Atualização (segundos)"
+        },
+        "data_description": {
+          "serial_port": "A porta serial onde o nobreak está conectado (ex: /dev/ttyUSB0)",
+          "model": "Selecione o modelo do seu nobreak para mapeamento correto dos registros",
+          "slave": "Endereço slave Modbus (geralmente 1)",
+          "scan_interval": "Com que frequência consultar o nobreak para atualizações"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Falha ao conectar ao nobreak. Verifique a porta serial e a conexão.",
+      "unknown": "Ocorreu um erro inesperado."
+    },
+    "abort": {
+      "already_configured": "Esta porta serial já está configurada."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "input_voltage": {
+        "name": "Tensão de Entrada"
+      },
+      "input_current": {
+        "name": "Corrente de Entrada"
+      },
+      "input_frequency": {
+        "name": "Frequência de Entrada"
+      },
+      "input_power_factor": {
+        "name": "Fator de Potência de Entrada"
+      },
+      "bypass_voltage": {
+        "name": "Tensão Bypass"
+      },
+      "bypass_frequency": {
+        "name": "Frequência Bypass"
+      },
+      "output_voltage": {
+        "name": "Tensão de Saída"
+      },
+      "output_current": {
+        "name": "Corrente de Saída"
+      },
+      "output_frequency": {
+        "name": "Frequência de Saída"
+      },
+      "output_power_factor": {
+        "name": "Fator de Potência de Saída"
+      },
+      "output_apparent_power": {
+        "name": "Potência Aparente de Saída"
+      },
+      "output_active_power": {
+        "name": "Potência Ativa de Saída"
+      },
+      "load_percentage": {
+        "name": "Carga"
+      },
+      "battery_charge": {
+        "name": "Carga da Bateria"
+      },
+      "battery_voltage": {
+        "name": "Tensão da Bateria"
+      },
+      "battery_current": {
+        "name": "Corrente da Bateria"
+      },
+      "battery_status": {
+        "name": "Status da Bateria"
+      },
+      "inverter_current": {
+        "name": "Corrente do Inversor"
+      },
+      "rectifier_temperature": {
+        "name": "Temperatura do Retificador"
+      },
+      "inverter_temperature": {
+        "name": "Temperatura do Inversor"
+      },
+      "bus_temperature": {
+        "name": "Temperatura do Barramento"
+      },
+      "rated_power": {
+        "name": "Potência Nominal"
+      },
+      "battery_count": {
+        "name": "Quantidade de Baterias"
+      },
+      "cell_float_voltage": {
+        "name": "Tensão Float por Célula"
+      },
+      "cell_boost_voltage": {
+        "name": "Tensão Boost por Célula"
+      },
+      "battery_maintenance_cycle": {
+        "name": "Ciclo de Manutenção da Bateria"
+      },
+      "running_time_weeks": {
+        "name": "Tempo de Funcionamento"
+      },
+      "serial_number": {
+        "name": "Número de Série"
+      },
+      "software_version": {
+        "name": "Versão do Software"
+      }
+    }
+  }
+}

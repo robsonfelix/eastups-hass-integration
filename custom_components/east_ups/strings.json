@@ -1,0 +1,121 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "EAST UPS Configuration",
+        "description": "Configure connection to your EAST UPS (Intelbras DNB series or similar).",
+        "data": {
+          "serial_port": "Serial Port",
+          "model": "UPS Model",
+          "baudrate": "Baud Rate",
+          "slave": "Modbus Slave Address",
+          "scan_interval": "Scan Interval (seconds)"
+        },
+        "data_description": {
+          "serial_port": "The serial port where the UPS is connected (e.g., /dev/ttyUSB0)",
+          "model": "Select your UPS model for correct register mapping",
+          "slave": "Modbus slave address (usually 1)",
+          "scan_interval": "How often to poll the UPS for updates"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the UPS. Check the serial port and connection.",
+      "unknown": "Unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "This serial port is already configured."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "input_voltage": {
+        "name": "Input Voltage"
+      },
+      "input_current": {
+        "name": "Input Current"
+      },
+      "input_frequency": {
+        "name": "Input Frequency"
+      },
+      "input_power_factor": {
+        "name": "Input Power Factor"
+      },
+      "bypass_voltage": {
+        "name": "Bypass Voltage"
+      },
+      "bypass_frequency": {
+        "name": "Bypass Frequency"
+      },
+      "output_voltage": {
+        "name": "Output Voltage"
+      },
+      "output_current": {
+        "name": "Output Current"
+      },
+      "output_frequency": {
+        "name": "Output Frequency"
+      },
+      "output_power_factor": {
+        "name": "Output Power Factor"
+      },
+      "output_apparent_power": {
+        "name": "Output Apparent Power"
+      },
+      "output_active_power": {
+        "name": "Output Active Power"
+      },
+      "load_percentage": {
+        "name": "Load"
+      },
+      "battery_charge": {
+        "name": "Battery Charge"
+      },
+      "battery_voltage": {
+        "name": "Battery Voltage"
+      },
+      "battery_current": {
+        "name": "Battery Current"
+      },
+      "battery_status": {
+        "name": "Battery Status"
+      },
+      "inverter_current": {
+        "name": "Inverter Current"
+      },
+      "rectifier_temperature": {
+        "name": "Rectifier Temperature"
+      },
+      "inverter_temperature": {
+        "name": "Inverter Temperature"
+      },
+      "bus_temperature": {
+        "name": "Bus Temperature"
+      },
+      "rated_power": {
+        "name": "Rated Power"
+      },
+      "battery_count": {
+        "name": "Battery Count"
+      },
+      "cell_float_voltage": {
+        "name": "Cell Float Voltage"
+      },
+      "cell_boost_voltage": {
+        "name": "Cell Boost Voltage"
+      },
+      "battery_maintenance_cycle": {
+        "name": "Battery Maintenance Cycle"
+      },
+      "running_time_weeks": {
+        "name": "Running Time"
+      },
+      "serial_number": {
+        "name": "Serial Number"
+      },
+      "software_version": {
+        "name": "Software Version"
+      }
+    }
+  }
+}

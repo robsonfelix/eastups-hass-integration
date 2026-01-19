@@ -1,0 +1,12 @@
+{
+  "domain": "east_ups",
+  "name": "EAST UPS",
+  "codeowners": ["@robsonfelix"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/robsonfelix/eastups-hass-integration",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/robsonfelix/eastups-hass-integration/issues",
+  "requirements": ["pymodbus>=3.6.0"],
+  "version": "1.0.0"
+}
