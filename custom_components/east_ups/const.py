@@ -303,7 +303,6 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         device_class=SensorDeviceClass.APPARENT_POWER,
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.CONFIG,
-        entity_registry_enabled_default=False,
         register=EastUPSRegisterDefinition(address=15, scale=1, input_type="holding"),
     ),
     "battery_count": EastUPSSensorEntityDescription(
@@ -312,7 +311,6 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         native_unit_of_measurement=None,
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.CONFIG,
-        entity_registry_enabled_default=False,
         register=EastUPSRegisterDefinition(address=6, scale=1, input_type="holding"),
     ),
     "cell_float_voltage": EastUPSSensorEntityDescription(
@@ -322,7 +320,6 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         device_class=SensorDeviceClass.VOLTAGE,
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.CONFIG,
-        entity_registry_enabled_default=False,
         register=EastUPSRegisterDefinition(address=7, scale=0.01, input_type="holding"),
     ),
     "cell_boost_voltage": EastUPSSensorEntityDescription(
@@ -332,7 +329,6 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         device_class=SensorDeviceClass.VOLTAGE,
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.CONFIG,
-        entity_registry_enabled_default=False,
         register=EastUPSRegisterDefinition(address=8, scale=0.01, input_type="holding"),
     ),
     "battery_maintenance_cycle": EastUPSSensorEntityDescription(
@@ -341,7 +337,6 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         native_unit_of_measurement=UnitOfTime.DAYS,
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.CONFIG,
-        entity_registry_enabled_default=False,
         register=EastUPSRegisterDefinition(address=26, scale=1, input_type="holding"),
     ),
     "running_time_weeks": EastUPSSensorEntityDescription(
@@ -356,7 +351,7 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         key="serial_number",
         name="Serial Number",
         native_unit_of_measurement=None,
-        entity_registry_enabled_default=False,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=76, scale=1, input_type="holding", data_type="string", count=7),
     ),
 }
