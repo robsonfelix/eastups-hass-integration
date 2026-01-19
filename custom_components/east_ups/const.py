@@ -11,6 +11,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.const import (
+    EntityCategory,
     PERCENTAGE,
     UnitOfApparentPower,
     UnitOfElectricCurrent,
@@ -237,13 +238,14 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         state_class=SensorStateClass.MEASUREMENT,
         register=EastUPSRegisterDefinition(address=51, scale=0.1),
     ),
-    # === TEMPERATURES ===
+    # === DIAGNOSTIC: TEMPERATURES & CURRENTS ===
     "inverter_current": EastUPSSensorEntityDescription(
         key="inverter_current",
         name="Inverter Current",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
         device_class=SensorDeviceClass.CURRENT,
         state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=56, scale=0.1),
     ),
     "rectifier_temperature": EastUPSSensorEntityDescription(
@@ -252,6 +254,7 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=57, scale=0.1),
     ),
     "inverter_temperature": EastUPSSensorEntityDescription(
@@ -260,6 +263,7 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=58, scale=0.1),
     ),
     "bus_temperature": EastUPSSensorEntityDescription(
@@ -268,6 +272,7 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=59, scale=0.1),
     ),
     # === STATUS ===
@@ -279,22 +284,25 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         register=EastUPSRegisterDefinition(address=71, scale=1),
         value_map=BATTERY_STATUS_TEXT,
     ),
-    # === SOFTWARE VERSION (ASCII) ===
+    # === DIAGNOSTIC INFO ===
     "software_version": EastUPSSensorEntityDescription(
         key="software_version",
         name="Software Version",
         native_unit_of_measurement=None,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=67, scale=1, data_type="string", count=3),
     ),
 }
 
 EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
+    # === CONFIG: Device settings ===
     "rated_power": EastUPSSensorEntityDescription(
         key="rated_power",
         name="Rated Power",
         native_unit_of_measurement=UnitOfApparentPower.VOLT_AMPERE,
         device_class=SensorDeviceClass.APPARENT_POWER,
         state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.CONFIG,
         entity_registry_enabled_default=False,
         register=EastUPSRegisterDefinition(address=15, scale=1, input_type="holding"),
     ),
@@ -303,6 +311,7 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         name="Battery Count",
         native_unit_of_measurement=None,
         state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.CONFIG,
         entity_registry_enabled_default=False,
         register=EastUPSRegisterDefinition(address=6, scale=1, input_type="holding"),
     ),
@@ -312,6 +321,7 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
         state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.CONFIG,
         entity_registry_enabled_default=False,
         register=EastUPSRegisterDefinition(address=7, scale=0.01, input_type="holding"),
     ),
@@ -321,6 +331,7 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
         state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.CONFIG,
         entity_registry_enabled_default=False,
         register=EastUPSRegisterDefinition(address=8, scale=0.01, input_type="holding"),
     ),
@@ -329,6 +340,7 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         name="Battery Maintenance Cycle",
         native_unit_of_measurement=UnitOfTime.DAYS,
         state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.CONFIG,
         entity_registry_enabled_default=False,
         register=EastUPSRegisterDefinition(address=26, scale=1, input_type="holding"),
     ),
