@@ -111,13 +111,13 @@ class EastUPSCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 response = await self._client.read_holding_registers(
                     address=address,
                     count=count,
-                    slave=self._slave,
+                    device_id=self._slave,
                 )
             else:
                 response = await self._client.read_input_registers(
                     address=address,
                     count=count,
-                    slave=self._slave,
+                    device_id=self._slave,
                 )
 
             if response.isError():

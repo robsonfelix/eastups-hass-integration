@@ -72,13 +72,13 @@ async def validate_connection(hass: HomeAssistant, data: dict[str, Any]) -> dict
                 raise CannotConnect("Failed to connect to serial port")
 
             # Try to read a known register (input voltage at address 0)
-            response = client.read_input_registers(address=0, count=1, slave=slave)
+            response = client.read_input_registers(address=0, count=1, device_id=slave)
 
             if response.isError():
                 raise CannotConnect(f"Modbus error: {response}")
 
             # Read serial number for title
-            serial_response = client.read_holding_registers(address=76, count=7, slave=slave)
+            serial_response = client.read_holding_registers(address=76, count=7, device_id=slave)
             serial = ""
             if not serial_response.isError():
                 chars = []
