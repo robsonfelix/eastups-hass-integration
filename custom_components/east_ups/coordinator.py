@@ -121,13 +121,20 @@ class EastUPSCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 )
 
             if response.isError():
-                _LOGGER.debug(
+                _LOGGER.warning(
                     "Error reading %s register %d: %s",
                     input_type,
                     address,
                     response,
                 )
                 return None
+
+            _LOGGER.debug(
+                "Read %s register %d: %s",
+                input_type,
+                address,
+                response.registers,
+            )
 
             return response.registers
         except ModbusException as err:
