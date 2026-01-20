@@ -201,6 +201,7 @@ class EastUPSCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
                 data[key] = value
 
+            _LOGGER.debug("Coordinator data: %s", data)
             return data
 
     async def async_shutdown(self) -> None:
