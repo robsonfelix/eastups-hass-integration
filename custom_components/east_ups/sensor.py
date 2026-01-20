@@ -29,10 +29,13 @@ async def async_setup_entry(
     """Set up EAST UPS sensors from a config entry."""
     coordinator: EastUPSCoordinator = hass.data[DOMAIN][entry.entry_id]
 
+    _LOGGER.info("Setting up EAST UPS sensors. Available keys: %s", list(coordinator.sensors.keys()))
+
     entities: list[EastUPSSensor] = []
 
     for key, description in coordinator.sensors.items():
         if description.register is not None:
+            _LOGGER.debug("Creating sensor for key: %s", key)
             entities.append(
                 EastUPSSensor(
                     coordinator=coordinator,
