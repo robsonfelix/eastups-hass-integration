@@ -165,6 +165,9 @@ class EastUPSCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     input_type=reg.input_type,
                 )
 
+                # Small delay between register reads to prevent UPS communication issues
+                await asyncio.sleep(0.1)
+
                 if registers is None:
                     data[key] = None
                     continue

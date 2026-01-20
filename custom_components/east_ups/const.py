@@ -135,10 +135,10 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
     "input_power_factor": EastUPSSensorEntityDescription(
         key="input_power_factor",
         name="Input Power Factor",
-        native_unit_of_measurement=None,
+        native_unit_of_measurement=PERCENTAGE,
         device_class=SensorDeviceClass.POWER_FACTOR,
         state_class=SensorStateClass.MEASUREMENT,
-        register=EastUPSRegisterDefinition(address=21, scale=0.01),
+        register=EastUPSRegisterDefinition(address=21, scale=1),
     ),
     # === BYPASS ===
     "bypass_voltage": EastUPSSensorEntityDescription(
@@ -185,10 +185,10 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
     "output_power_factor": EastUPSSensorEntityDescription(
         key="output_power_factor",
         name="Output Power Factor",
-        native_unit_of_measurement=None,
+        native_unit_of_measurement=PERCENTAGE,
         device_class=SensorDeviceClass.POWER_FACTOR,
         state_class=SensorStateClass.MEASUREMENT,
-        register=EastUPSRegisterDefinition(address=33, scale=0.01),
+        register=EastUPSRegisterDefinition(address=33, scale=1),
     ),
     "output_apparent_power": EastUPSSensorEntityDescription(
         key="output_apparent_power",
@@ -237,6 +237,22 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         device_class=SensorDeviceClass.CURRENT,
         state_class=SensorStateClass.MEASUREMENT,
         register=EastUPSRegisterDefinition(address=51, scale=0.1),
+    ),
+    "battery_remaining_time": EastUPSSensorEntityDescription(
+        key="battery_remaining_time",
+        name="Battery Remaining Time",
+        native_unit_of_measurement=UnitOfTime.MINUTES,
+        device_class=SensorDeviceClass.DURATION,
+        state_class=SensorStateClass.MEASUREMENT,
+        register=EastUPSRegisterDefinition(address=54, scale=1),
+    ),
+    "battery_remaining_capacity": EastUPSSensorEntityDescription(
+        key="battery_remaining_capacity",
+        name="Battery Remaining Capacity",
+        native_unit_of_measurement=PERCENTAGE,
+        device_class=SensorDeviceClass.BATTERY,
+        state_class=SensorStateClass.MEASUREMENT,
+        register=EastUPSRegisterDefinition(address=55, scale=0.1),
     ),
     # === DIAGNOSTIC: TEMPERATURES & CURRENTS ===
     "inverter_current": EastUPSSensorEntityDescription(
@@ -311,7 +327,7 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         native_unit_of_measurement=None,
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.CONFIG,
-        register=EastUPSRegisterDefinition(address=6, scale=1, input_type="holding"),
+        register=EastUPSRegisterDefinition(address=5, scale=1, input_type="holding"),
     ),
     "cell_float_voltage": EastUPSSensorEntityDescription(
         key="cell_float_voltage",
@@ -339,12 +355,13 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         entity_category=EntityCategory.CONFIG,
         register=EastUPSRegisterDefinition(address=26, scale=1, input_type="holding"),
     ),
-    "running_time_weeks": EastUPSSensorEntityDescription(
-        key="running_time_weeks",
+    "running_time": EastUPSSensorEntityDescription(
+        key="running_time",
         name="Running Time",
         native_unit_of_measurement=UnitOfTime.DAYS,
+        device_class=SensorDeviceClass.DURATION,
         state_class=SensorStateClass.TOTAL_INCREASING,
-        register=EastUPSRegisterDefinition(address=27, scale=7, input_type="holding"),  # weeks * 7 = days
+        register=EastUPSRegisterDefinition(address=27, scale=7, input_type="holding"),  # weeks * 7 = days (updates weekly)
     ),
     # === SERIAL NUMBER (ASCII) ===
     "serial_number": EastUPSSensorEntityDescription(
