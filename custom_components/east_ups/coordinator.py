@@ -26,6 +26,11 @@ from .const import (
     MODEL_EA900_G4,
     MODEL_REGISTER_MAP,
     EastUPSSensorEntityDescription,
+    BATTERY_STATUS_TEXT,
+    RECTIFIER_STATUS_TEXT,
+    INVERTER_STATUS_TEXT,
+    BYPASS_STATUS_TEXT,
+    LOAD_ON_STATUS_TEXT,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -153,6 +158,35 @@ class EastUPSCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 chars.append(chr(low_byte))
         return "".join(chars).strip()
 
+    def _parse_status_word(self, status_word: int) -> dict[str, str]:
+        """Parse the status word bitfield from register 70.
+
+        Bit layout (per official EA900 G4 doc):
+        - bits 0-1: Rectifier status (0: off, 1: softstart, 2: PFC mode, 3: battery mode)
+        - bits 2-3: Inverter status (0: off, 1: softstart, 2: normal, 3: standby)
+        - bits 4-6: Battery status (0: disconnect, 1: standby, 2: boosting, 3: floating, 4: discharge)
+        - bits 7-8: Bypass status (0: no bypass, 1: normal)
+        - bits 9-10: Load on status (0: none, 1: load on bypass, 2: load on inverter, 3: load on other)
+        - bits 11-15: Reserved
+
+        Note: Doc says bit1-bit2, bit3-bit4, etc. but uses 1-based indexing.
+        In 0-based indexing: bits 0-1, 2-3, 4-6, 7-8, 9-10
+        """
+        # Extract bit fields (0-based indexing)
+        rectifier_status = status_word & 0x03  # bits 0-1
+        inverter_status = (status_word >> 2) & 0x03  # bits 2-3
+        battery_status = (status_word >> 4) & 0x07  # bits 4-6
+        bypass_status = (status_word >> 7) & 0x03  # bits 7-8
+        load_on_status = (status_word >> 9) & 0x03  # bits 9-10
+
+        return {
+            "rectifier_status": RECTIFIER_STATUS_TEXT.get(rectifier_status, f"Unknown ({rectifier_status})"),
+            "inverter_status": INVERTER_STATUS_TEXT.get(inverter_status, f"Unknown ({inverter_status})"),
+            "battery_status": BATTERY_STATUS_TEXT.get(battery_status, f"Unknown ({battery_status})"),
+            "bypass_status": BYPASS_STATUS_TEXT.get(bypass_status, f"Unknown ({bypass_status})"),
+            "load_on_status": LOAD_ON_STATUS_TEXT.get(load_on_status, f"Unknown ({load_on_status})"),
+        }
+
     async def _async_update_data(self) -> dict[str, Any]:
         """Fetch data from the UPS."""
         async with self._lock:
@@ -163,6 +197,7 @@ class EastUPSCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
             for key, sensor_desc in self._sensors.items():
                 if sensor_desc.register is None:
+                    # Derived sensors (battery_status, etc.) - skip for now
                     continue
 
                 reg = sensor_desc.register
@@ -186,8 +221,11 @@ class EastUPSCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     # Combine two 16-bit registers into 32-bit value
                     value = (registers[0] << 16) | registers[1]
                     value = value * reg.scale
+                elif reg.data_type == "uint16":
+                    # Unsigned 16-bit value (e.g., status word)
+                    value = registers[0]
                 else:
-                    # Standard 16-bit value
+                    # Standard signed 16-bit value
                     raw_value = registers[0]
                     # Handle signed values if needed
                     if raw_value > 32767:
@@ -200,6 +238,12 @@ class EastUPSCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     value = sensor_desc.value_map.get(int_value, f"Unknown ({int_value})")
 
                 data[key] = value
+
+            # Parse status word to derive battery/rectifier/inverter/bypass/load status
+            if "status_word" in data and data["status_word"] is not None:
+                status_values = self._parse_status_word(int(data["status_word"]))
+                data.update(status_values)
+                _LOGGER.debug("Parsed status word %d: %s", data["status_word"], status_values)
 
             _LOGGER.debug("Coordinator data: %s", data)
             return data

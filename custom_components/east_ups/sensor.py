@@ -34,16 +34,17 @@ async def async_setup_entry(
     entities: list[EastUPSSensor] = []
 
     for key, description in coordinator.sensors.items():
-        if description.register is not None:
-            _LOGGER.debug("Creating sensor for key: %s", key)
-            entities.append(
-                EastUPSSensor(
-                    coordinator=coordinator,
-                    entry=entry,
-                    description=description,
-                    sensor_key=key,
-                )
+        # Create sensors for both register-based and derived sensors
+        # Derived sensors (register=None) get their values from status_word parsing
+        _LOGGER.debug("Creating sensor for key: %s (register=%s)", key, description.register)
+        entities.append(
+            EastUPSSensor(
+                coordinator=coordinator,
+                entry=entry,
+                description=description,
+                sensor_key=key,
             )
+        )
 
     async_add_entities(entities)
 
