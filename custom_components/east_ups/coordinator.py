@@ -248,6 +248,43 @@ class EastUPSCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             _LOGGER.debug("Coordinator data: %s", data)
             return data
 
+    async def async_write_register(self, address: int, value: int) -> bool:
+        """Write a value to a Modbus register (function code 0x06)."""
+        async with self._lock:
+            if not await self._async_connect():
+                _LOGGER.error("Failed to connect to UPS for write operation")
+                return False
+
+            try:
+                response = await self._client.write_register(
+                    address=address,
+                    value=value,
+                    slave=self._slave,
+                )
+
+                if response.isError():
+                    _LOGGER.error(
+                        "Error writing to register 0x%04X: %s",
+                        address,
+                        response,
+                    )
+                    return False
+
+                _LOGGER.info(
+                    "Successfully wrote value %d to register 0x%04X",
+                    value,
+                    address,
+                )
+                return True
+
+            except Exception as err:
+                _LOGGER.error(
+                    "Exception writing to register 0x%04X: %s",
+                    address,
+                    err,
+                )
+                return False
+
     async def async_shutdown(self) -> None:
         """Shutdown the coordinator and close connection."""
         await self._async_disconnect()
