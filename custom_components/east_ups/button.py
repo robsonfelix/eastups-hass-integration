@@ -60,7 +60,7 @@ BUTTON_DESCRIPTIONS: Final[list[EastUPSButtonEntityDescription]] = [
     ),
     EastUPSButtonEntityDescription(
         key="battery_test_20s",
-        name="Battery Test (20s)",
+        name="Start Battery Test (20s)",
         icon="mdi:battery-sync",
         register=0x8006,
         value=1,
