@@ -452,14 +452,15 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
 }
 
 EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
-    # === CONFIG: Device settings (from reverse engineering, not in official doc) ===
+    # === DIAGNOSTIC: Device info (from reverse engineering, not in official doc) ===
+    # Note: These are read-only diagnostic values, not actual config settings
     "rated_power": EastUPSSensorEntityDescription(
         key="rated_power",
         name="Rated Power",
         native_unit_of_measurement=UnitOfApparentPower.VOLT_AMPERE,
         device_class=SensorDeviceClass.APPARENT_POWER,
         state_class=SensorStateClass.MEASUREMENT,
-        entity_category=EntityCategory.CONFIG,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=15, scale=1, input_type="holding"),
     ),
     "battery_count": EastUPSSensorEntityDescription(
@@ -467,7 +468,7 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         name="Battery Count",
         native_unit_of_measurement=None,
         state_class=SensorStateClass.MEASUREMENT,
-        entity_category=EntityCategory.CONFIG,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=5, scale=1, input_type="holding"),
     ),
     "cell_float_voltage": EastUPSSensorEntityDescription(
@@ -476,7 +477,7 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
         state_class=SensorStateClass.MEASUREMENT,
-        entity_category=EntityCategory.CONFIG,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=7, scale=0.01, input_type="holding"),
     ),
     "cell_boost_voltage": EastUPSSensorEntityDescription(
@@ -485,7 +486,7 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
         state_class=SensorStateClass.MEASUREMENT,
-        entity_category=EntityCategory.CONFIG,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=8, scale=0.01, input_type="holding"),
     ),
     "battery_maintenance_cycle": EastUPSSensorEntityDescription(
@@ -493,7 +494,7 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         name="Battery Maintenance Cycle",
         native_unit_of_measurement=UnitOfTime.DAYS,
         state_class=SensorStateClass.MEASUREMENT,
-        entity_category=EntityCategory.CONFIG,
+        entity_category=EntityCategory.DIAGNOSTIC,
         register=EastUPSRegisterDefinition(address=26, scale=1, input_type="holding"),
     ),
     "running_time": EastUPSSensorEntityDescription(
