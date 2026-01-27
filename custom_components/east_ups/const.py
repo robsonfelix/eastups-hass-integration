@@ -319,14 +319,6 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         state_class=SensorStateClass.MEASUREMENT,
         register=EastUPSRegisterDefinition(address=51, scale=0.1),  # Doc: reg 51
     ),
-    "battery_temperature": EastUPSSensorEntityDescription(
-        key="battery_temperature",
-        name="Battery Temperature",
-        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        device_class=SensorDeviceClass.TEMPERATURE,
-        state_class=SensorStateClass.MEASUREMENT,
-        register=EastUPSRegisterDefinition(address=53, scale=0.1),  # Doc: reg 53
-    ),
     "battery_remaining_time": EastUPSSensorEntityDescription(
         key="battery_remaining_time",
         name="Battery Remaining Time",
