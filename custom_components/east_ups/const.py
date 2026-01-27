@@ -264,6 +264,14 @@ EA900_G4_INPUT_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         state_class=SensorStateClass.MEASUREMENT,
         register=EastUPSRegisterDefinition(address=30, scale=0.1),  # Doc: reg 30
     ),
+    "output_power_factor": EastUPSSensorEntityDescription(
+        key="output_power_factor",
+        name="Output Power Factor",
+        native_unit_of_measurement=None,
+        device_class=SensorDeviceClass.POWER_FACTOR,
+        state_class=SensorStateClass.MEASUREMENT,
+        register=EastUPSRegisterDefinition(address=33, scale=0.01),  # Reverse-engineered (Reserved in doc)
+    ),
     "output_apparent_power": EastUPSSensorEntityDescription(
         key="output_apparent_power",
         name="Output Apparent Power",
@@ -487,6 +495,15 @@ EA900_G4_HOLDING_REGISTERS: Final[dict[str, EastUPSSensorEntityDescription]] = {
         state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.CONFIG,
         register=EastUPSRegisterDefinition(address=26, scale=1, input_type="holding"),
+    ),
+    "running_time": EastUPSSensorEntityDescription(
+        key="running_time",
+        name="Running Time",
+        native_unit_of_measurement=UnitOfTime.DAYS,
+        device_class=SensorDeviceClass.DURATION,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        register=EastUPSRegisterDefinition(address=27, scale=7, input_type="holding"),  # Weeks * 7 = days
     ),
     # === SERIAL NUMBER (ASCII) ===
     "serial_number": EastUPSSensorEntityDescription(
